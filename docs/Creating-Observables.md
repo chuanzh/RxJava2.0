@@ -1,8 +1,9 @@
 ### Create 
 创建一个Observable对象  
-![Create](images/Create.png)  
+![](/docs/images/create.png)  
 根据不同情况调用onNext/onError/OnCompleted方法，调用onCompleted后不会再有新的onNext事件发出，注意onCompleted()
 和onError()二者也是互斥的，即在队列中调用了其中一个，就不应该再调用另一个  
+  
 示例代码：  
 ```Java
 Observable.create(new ObservableOnSubscribe<String>() {
@@ -29,7 +30,7 @@ Observable.create(new ObservableOnSubscribe<String>() {
 
 将一个或多个对象转换成Observable对象并发射出去  
 
-![just](images/Just.png)  
+![](/docs/images/just.png)  
 
 可传递1到9个参数，参数可是任何类型  
 
@@ -57,7 +58,7 @@ print: word
 
 ### FromCallable/FromIterable/FromFutrue/FromArray  
 将一个Callable，Iterable, Future或一个数组转换成一个Observable对象并发射出去  
-![just](images/Just.png)  
+![](/docs/images/From.png)  
 
 对于Iterable和数组，产生的Observable会发射Iterable或数组的每一项数据  
 
