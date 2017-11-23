@@ -1,5 +1,5 @@
-# RxJava
-RxJava使用介绍，每个操作符对应一个示例，帮助更好理解RxJava
+# RxJava2.0
+RxJava2.0使用介绍，参考官方文档，每个操作符对应一个示例，帮助更好理解RxJava2.0
 
 # RxJava是什么？  
 ## Rx（Reactive Extensions）历史  
@@ -17,9 +17,9 @@ RxJava使用介绍，每个操作符对应一个示例，帮助更好理解RxJav
 
 ### 函数式编程  
 
-# RxJava使用  
+# RxJava2.0使用  
 
-# RxJava操作符
+# RxJava2.0操作符
    + 创建操作符：Create、Defer、From、Just、Range  
    + 变换操作符：Map、FlatMap、Buffer、GroupBy  
    + 过滤操作符：Filter、Distinct、Take、First、Last、Skip、SkipLast  
@@ -31,4 +31,4 @@ RxJava使用介绍，每个操作符对应一个示例，帮助更好理解RxJav
    + 连接操作： Connect、 Publish  
    + 任务调度： subscribeOn、 observeOn  
    
-# RxJava使用例子  
+# RxJava2.0使用例子  
