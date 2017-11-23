@@ -1,5 +1,7 @@
 package cn.chuanz.operator.creating;
 
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,12 +26,14 @@ public class Create {
 	public void create() {
 		Observable.create(new ObservableOnSubscribe<String>() {
 			@Override
-			public void subscribe(ObservableEmitter<String> arg0) throws Exception {
-				arg0.onNext("hello");
-				arg0.onComplete();
+			public void subscribe(ObservableEmitter<String> t) throws Exception {
+				t.onNext("hello");
+				if (new Random().nextInt(10) > 5) {
+					t.onError(new Exception());
+				}
+				t.onComplete();
 			}
 		})
-		//.map(s -> Integer.parseInt(s)+"")
 		.subscribe(new Consumer<String>() {
 			@Override
 			public void accept(String arg0) throws Exception {
