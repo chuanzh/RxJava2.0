@@ -3,8 +3,9 @@ package cn.chuanz.operator.creating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rx.Observable;
-import rx.Observer;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.functions.Consumer;
 
 public class From {
 
@@ -15,23 +16,11 @@ public class From {
 	}
 	
 	private void from() {
-		Observable.from(new String[]{"hello", "word", "word2"}).subscribe(new Observer<String>() {
+		Observable.fromArray(new String[]{"hello", "word", "word2"}).subscribe(new Consumer<String>() {
 			@Override
-			public void onCompleted() {
+			public void accept(String s) throws Exception {
 				// TODO Auto-generated method stub
-				logger.info("oncompleted");
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				// TODO Auto-generated method stub
-				logger.error("error: {}", e);
-			}
-
-			@Override
-			public void onNext(String t) {
-				// TODO Auto-generated method stub
-				logger.info(t);
+				logger.info(s);
 			}
 		});
 	}

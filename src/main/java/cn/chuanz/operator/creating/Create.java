@@ -3,6 +3,11 @@ package cn.chuanz.operator.creating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Consumer;
+
 
 public class Create {
 
@@ -17,38 +22,23 @@ public class Create {
 	 * 创建函数
 	 */
 	public void create() {
-		Observable<String> myObservable = Observable.create(new OnSubscribe<String>() {
+		Observable.create(new ObservableOnSubscribe<String>() {
 			@Override
-			public void call(Subscriber<? super String> t) {
+			public void subscribe(ObservableEmitter<String> arg0) throws Exception {
+				arg0.onNext("hello");
+				arg0.onComplete();
+			}
+		})
+		//.map(s -> Integer.parseInt(s)+"")
+		.subscribe(new Consumer<String>() {
+			@Override
+			public void accept(String arg0) throws Exception {
 				// TODO Auto-generated method stub
-				logger.info("hello");
-				t.onNext("hello word");
-				t.onCompleted();
+				logger.info(arg0);
 			}
 		});
 		
 		
-		Observer<String> observer = new Observer<String>() {
-			@Override
-			public void onNext(String t) {
-				// TODO Auto-generated method stub
-				logger.info(t);
-			}
-			
-			@Override
-			public void onError(Throwable e) {
-				// TODO Auto-generated method stub
-				logger.info("error: {}", e);
-			}
-			
-			@Override
-			public void onCompleted() {
-				// TODO Auto-generated method stub
-				logger.info("onCompleted");
-			}
-		};
-
-		myObservable.subscribe(observer);
 	}
 	
 }

@@ -3,8 +3,8 @@ package cn.chuanz.operator.creating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rx.Observable;
-import rx.Observer;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 public class Range {
 
@@ -16,24 +16,11 @@ public class Range {
 	}
 	
 	private void range() {
-		Observable.range(1, 3).map(i -> String.valueOf(i)).subscribe(new Observer<String>() {
-
+		Observable.range(1, 3).map(i -> String.valueOf(i)).subscribe(new Consumer<String>() {
 			@Override
-			public void onCompleted() {
+			public void accept(String s) throws Exception {
 				// TODO Auto-generated method stub
-				logger.info("oncompleted");
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				// TODO Auto-generated method stub
-				logger.error("error: {}", e);
-			}
-
-			@Override
-			public void onNext(String t) {
-				// TODO Auto-generated method stub
-				logger.info(t);
+				logger.info(s);
 			}
 		});
 	}

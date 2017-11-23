@@ -1,11 +1,13 @@
 package cn.chuanz.operator.creating;
 
+import java.util.concurrent.Callable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func0;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Consumer;
 
 public class Defer {
 
@@ -17,19 +19,19 @@ public class Defer {
 	
 	private void defer() {
 		String s = "hello";
-		Observable<String> observalbe = Observable.defer(new Func0<Observable<String>>() {
+		Observable<String> observalbe = Observable.defer(new Callable<ObservableSource<? extends String>>() {
 			@Override
-			public Observable<String> call() {
+			public ObservableSource<? extends String> call() throws Exception {
 				// TODO Auto-generated method stub
-				//writetoFile(s);
 				return Observable.just(s);
 			}
 		});
 		
-		observalbe.subscribe(new Action1<String>() {
+		observalbe.subscribe(new Consumer<String>() {
 			@Override
-			public void call(String t) {
-				logger.info(t);
+			public void accept(String s) throws Exception {
+				// TODO Auto-generated method stub
+				logger.info(s);
 			}
 		});
 		
