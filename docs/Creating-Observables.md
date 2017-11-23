@@ -24,7 +24,8 @@ Observable.create(new ObservableOnSubscribe<String>() {
   }
 });
 ```
-  
+
+***
   
 ### Just  
 
@@ -53,8 +54,8 @@ Observable.just("hello", "word").subscribe(new Consumer<String>() {
 print: hello
 print: word
 ```
-  
-  
+
+***
 
 ### FromCallable/FromIterable/FromFutrue/FromArray  
 将一个Callable，Iterable, Future或一个数组转换成一个Observable对象并发射出去  
