@@ -31,4 +31,4 @@ RxJava2.0使用介绍，参考官方文档，每个操作符对应一个示例�
    + 连接操作： Connect、 Publish  
    + 任务调度： subscribeOn、 observeOn  
    
-# RxJava2.0使用例子  
+# RxJava2.0实战例子  
