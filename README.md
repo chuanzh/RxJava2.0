@@ -16,15 +16,18 @@ RxJava2.0使用介绍，参考官方文档，每个操作符对应一个示例�
 [Season_zlc](http://www.jianshu.com/p/464fa025229e)博客，把这一系列的操作比喻为水管很形象，如下图：    
 ![](/docs/images/observable-observer.png)  
 上面一根水管为事件产生的水管(上游)，下面一根水管为事件接收的水管(下游)。    
-两根水管通过一定的方式连接起来，使得上游每产生一个事件，下游就能收到该事件。注意这里和官网的事件图是反过来的, 这里的事件发送的顺序是先1,后2,后3这样的顺序, 事件接收的顺序也是先1,后2,后3的顺序  
-这里的上游和下游就分别对应着RxJava中的Observable和Observer，通过subscribe方法将二者连接起来  
+两根水管通过一定的方式连接起来，使得上游每产生一个事件，下游就能收到该事件。比如上游事件发送的顺序是先1,后2,后3这样的顺序, 下游事件接收的顺序也是先1,后2,后3的顺序  
+这里的上游和下游就分别对应着RxJava中的Observable和Observer，通过subscribe方法将二者连接起来  
  
 ### 迭代器模式 
-类比Java中的Iterator类，RxJava通过Observable来传递数据   
-|    name    | age |
-| ---------- | --- |
-| LearnShare |  12 |
-| Mike       |  32 | 
+类比Java中的Iterator类，RxJava通过Observable来传递数据    
+
+|   事件	 |   Iterable    |  Observable |  
+| ------:  |   ------:    |  -------:    |  
+|获取数据	| T next()	| onNext(T)   |    
+|异常处理	| throws Exception | onError(Exception) |  
+|任务完成	| !hasNext()	| onCompleted() | 
+
 
 ### 函数式编程 
 什么是函数式编程，我举个例子，比如我们要抓取某个网页的数据，会经过如下操作：  
