@@ -22,7 +22,6 @@ public class Buffer {
 		.subscribe(new Consumer<List<String>>() {
 			@Override
 			public void accept(List<String> t) throws Exception {
-				// TODO Auto-generated method stub
 				int key = t.hashCode();
 				t.forEach(i -> logger.info("key: {}, value: {}", key, i));
 			}
