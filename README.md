@@ -45,7 +45,7 @@ Observable.from(params)
 	  logger.info("chunqiu ticket onComplete");
   });
 ```
-
+通过不同的函数对数据进行转换，并可以使用subscribeOn控制每个事件的执行线程池，提高执行效率   
 
 # RxJava2.0使用  
 创建一个观察者和一个被观察者  
@@ -55,14 +55,11 @@ Observable<String> observable = Observable.create(new ObservableOnSubscribe<Stri
 	@Override
 	public void subscribe(ObservableEmitter<String> t) throws Exception {
 		t.onNext("hello");
-		
 		t.onNext("word");
-		
-		//t.onError(new Exception());
-		
 		t.onComplete();
 		
-		t.onNext("new str");
+		//t.onError(new Exception());
+		//t.onNext("new str");
 	}
 });
 
@@ -70,7 +67,7 @@ Observable<String> observable = Observable.create(new ObservableOnSubscribe<Stri
 Observer<String> observer = new Observer<String>() {
 	@Override
 	public void onSubscribe(Disposable d) {
-		logger.info("disposable: "+d.isDisposed());
+		logger.info("onsubscirbe: "+d.isDisposed());
 	}
 
 	@Override
@@ -95,12 +92,13 @@ observable.subscribe(observer);
 
 输出结果：
 ```
+onsubscirbe: false
 hello
 word
 oncomplete
 ```
-关于onNext，onError，onComplete使用说明：  
-   + Observable可以发送无限个onNext, Observer也可以接收无限个onNext.  
+通过ObservableEmitter对象发射数据，关于onNext，onError，onComplete使用说明：  
+   + Observable可以发送无限个onNext, Observer也可以接收无限个onNext.  
    + 当Observable发送了一个onComplete后, 在onComplete之后的事件将会继续发送,而Observer收到onComplete事件之后将不再继续接收事件.  
    + 当Observable发送了一个onError后, 在onError之后的事件将继续发送,而Observer收到onError事件之后将不再继续接收事件.  
    + Observable可以不发送onComplete或onError.  
