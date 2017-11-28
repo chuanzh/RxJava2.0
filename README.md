@@ -97,8 +97,9 @@ hello
 word
 oncomplete
 ```
-通过ObservableEmitter对象发射数据，关于onNext，onError，onComplete使用说明：  
-   + Observable可以发送无限个onNext, Observer也可以接收无限个onNext.  
+
+通过ObservableEmitter对象发射数据，关于onNext，onError，onComplete使用说明：  
+   + Observable可以发送无限个onNext, Observer也可以接收无限个onNext.  
    + 当Observable发送了一个onComplete后, 在onComplete之后的事件将会继续发送,而Observer收到onComplete事件之后将不再继续接收事件.  
    + 当Observable发送了一个onError后, 在onError之后的事件将继续发送,而Observer收到onError事件之后将不再继续接收事件.  
    + Observable可以不发送onComplete或onError.  
