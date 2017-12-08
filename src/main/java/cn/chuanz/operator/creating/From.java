@@ -1,5 +1,8 @@
 package cn.chuanz.operator.creating;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +19,8 @@ public class From {
 	}
 	
 	private void from() {
-		Observable.fromArray(new String[]{"hello", "word", "word2"}).subscribe(new Consumer<String>() {
+		Observable.fromArray(new String[]{"hello", "word", "word2"})
+		.subscribe(new Consumer<String>() {
 			@Override
 			public void accept(String s) throws Exception {
 				// TODO Auto-generated method stub

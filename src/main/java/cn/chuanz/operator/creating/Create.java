@@ -17,7 +17,7 @@ public class Create {
 	private Logger logger = LoggerFactory.getLogger(Create.class);
 	
 	public static void main(String[] args) {
-		new Create().create2();
+		new Create().create();
 	}
 	
 	
@@ -30,81 +30,19 @@ public class Create {
 			@Override
 			public void subscribe(ObservableEmitter<String> t) throws Exception {
 				t.onNext("hello");
-				
 				t.onNext("word");
-				
-				//t.onError(new Exception());
-				
 				t.onComplete();
 				
-				t.onNext("new str");
+				//t.onError(new Exception());
+				//t.onNext("new str");
 			}
 		});
-		
-		
-		Subject<String> subject = new Subject<String>() {
-
-			@Override
-			public void onSubscribe(Disposable d) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onNext(String value) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onComplete() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public boolean hasObservers() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean hasThrowable() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean hasComplete() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public Throwable getThrowable() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected void subscribeActual(Observer<? super String> observer) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
 		
 		//观察者
 		Observer<String> observer = new Observer<String>() {
 			@Override
 			public void onSubscribe(Disposable d) {
-				logger.info("disposable: "+d.isDisposed());
+				logger.info("onsubscirbe: "+d.isDisposed());
 			}
 
 			@Override
@@ -122,10 +60,6 @@ public class Create {
 				logger.info("oncomplete");
 			}
 		};
-		
-		observable.subscribe(observer);
-		
-		observable.subscribe(subject);
 		
 	}
 	
