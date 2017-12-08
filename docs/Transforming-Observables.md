@@ -90,4 +90,34 @@ Observable.just("1", "2", "3", "4").buffer(2)
 4
 ```
 
+*** 
+<br/> 
+
+### GroupBy  
+将Observable分拆为Observable集合，将原始Observable发射的数据按Key分组，每一个Observable发射一组不同的数据  
+![](/docs/images/groupBy.png)  
+
+示例代码：   
+
+```java
+Observable.just(1, 2, 3, 4, 5)
+  //.groupBy(i -> i%2==0?"even":"odd")
+  .groupBy(new Function<Integer, String>() {
+	@Override
+	public String apply(Integer t) throws Exception {
+		return t % 2 == 0 ? "even" : "odd";
+	}})
+  .subscribe(g -> g.subscribe(i -> logger.info(g.getKey()+":"+i)));
+```
+
+输出  
+
+```
+odd:1
+even:2
+odd:3
+even:4
+odd:5
+```
+
    
