@@ -111,7 +111,7 @@ oncomplete
    + [创建操作符：Create、Defer、From、Just、Range](/docs/Creating-Observables.md)  
    + [变换操作符：Map、FlatMap、Buffer、GroupBy](/docs/Transforming-Observables.md)  
    + [过滤操作符：Filter、Distinct、Take、First、Last、Skip、SkipLast](/docs/Filtering-Observables.md)  
-   + 组合操作符：Merge、Zip  
+   + [组合操作符：Merge、Zip](/docs/Combining-Observables.md)  
    + 错误操作符：Catch、Retry、RetryWhen  
    + 辅助操作符：Delay、Subscribe、SubscribeOn、Timeout  
    + 条件和布尔操作符： All、 SkipWhile  
