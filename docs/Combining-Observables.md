@@ -35,8 +35,8 @@ private Observable<Integer> execute(Integer[] args) {
 <br/> 
 
 ### Zip  
-通过一个函数将多个Obserable返回结果结合在一起，然后将返回结果发射出去
-![](/docs/images/zip.png)  
+通过一个函数将多个Obserable返回结果结合在一起，然后将返回结果发射出去，zip可传9个执行方法参数
+![](/docs/images/zip.png)  
 
 示例代码：   
 
