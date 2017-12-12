@@ -15,7 +15,7 @@ public class Zip {
 	}
 	
 	private void zip() {
-		Observable.zip(getData1(new Integer[]{1,2,3}), getData2(), (r1, r2) -> r2+":"+r1)
+		Observable.zip(getData1(new Integer[]{1,2,3}), getData2(), (r1, r2) -> {return r2+":"+r1;})
 				  .subscribe(s -> logger.info(s));
 	}
 	
