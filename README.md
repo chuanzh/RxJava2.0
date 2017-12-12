@@ -165,3 +165,82 @@ Observable.zip(getDynamic(), getShare(), getPre(), getPlane(), getFiducial(),
 }).subscribeOn(Schedulers.from(workPool)).toBlocking().subscribe();
 ```
 注意这里要使用toBlocking来阻塞阻塞合并操作，等待所有任务都执行完成后再进行合并，最后将结果赋予GetDetailResponse对象
+
+## 一个抓取的例子  
+### 抓取任务的几个关键点：
+* 代理IP
+* 并发抓取
+* 失败重试
+
+代理IP，你可以在网上抓取一批IP保存着，[快代理](http://www.kuaidaili.com/free/)网站上有很多免费的IP，以下主要说说并发抓取和失败重试，先看代码：  
+以春秋的机票网站为例子，我们要抓取里面的机票数据  
+```Java
+String[] routes = {"XMN,SHA,2017-11-20","SHA,SZX,2017-11-21"};
+int days = 2;
+long start = System.currentTimeMillis();
+Observable.range(1, days)
+          .flatMap(day -> Observable.from(routes) 
+                  .map(route -> {
+                      String[] arr = route.split(",");
+                      arr[2] = FuncDate.AddDay(FuncDate.getNowDate(), day);
+                      return new String[]{enSpecialCode(arr[0]), enSpecialCode(arr[1]),arr[2]};
+                  })) // [标注1]
+          .flatMap(route -> spiderPage(route).subscribeOn(Schedulers.from(netWorkPool)).retryWhen(attempts -> {
+              return attempts.zipWith(Observable.range(1, 3), (n, i) -> i).flatMap(i -> {
+                  logger.info("retry {} spider: {}, {}, {}", i, route[0], route[1], route[2]);
+                  return Observable.timer(5, TimeUnit.SECONDS);
+              });
+            })) // [标注2]
+          .map(chunqiuweb -> parsePage(chunqiuweb)) // [标注3]
+          .flatMap((List<ChunqiuTicket> list) -> Observable.from(list))
+          .flatMap((ChunqiuTicket ticket) -> insertIntoDbObservable(ticket).subscribeOn(Schedulers.from(dbPool))) // [标注4]
+          .toBlocking()
+          .subscribe(chunqiuticket -> {}, error -> logger.error("error {}", error), () -> {
+              logger.info("chunqiu ticket onComplete");
+              addStopFlight();
+          });
+logger.info("end: "+(System.currentTimeMillis()-start));
+```
+如上代码，
+* 第一步，我是想抓取routes航段里面近2天的数据，range是依次循环天数，使用flatMap将组合后的数据发射出去，对应[标注1]  
+* 第二步，抓取根据航段数据，我们指定他在netWorkPool这个线程池上运行，使用retryWhen，当失败后重试，每次重试间隔5秒，重试3次，对应[标注2]  
+* 第三步，解析数据，使用map转换函数即可，对应[标注3]，注：将html解析为List集合数据后，又使用了flatMap将单个List作为多个Obserable发射出去  
+* 第四步，将数据保存到数据库，同时制定了在dbPool上运行，对应[标注4]  
+* 使用toBlocking()堵塞以上的操作，直到所有的任务结束  
+
+其它方法如下：
+```Java
+private Observable<ChunqiuWeb> spiderPage(String[] route) {
+  return Observable.create((ObservableEmitter<ChunqiuWeb> e) -> {
+          try {
+            ChunqiuWeb result = postRequest(route);
+            if (result == null) {
+              e.onError(new Exception());
+            }
+              e.onNext(result);
+              e.onCompleted();
+          } catch (Exception e) {
+              e.onError(e);
+          }
+      });
+}
+```
+
+```Java
+private Observable<ChunqiuTicket> insertIntoDbObservable(ChunqiuTicket ticket) {
+    return Observable.create(e -> {
+            //订阅者回调 onNext 和 onCompleted
+            if (!e.isUnsubscribed()) {
+                try {
+                  insertIntoDb(ticket);
+                } catch (Exception ex) {
+                    logger.error("insertIntoDb ticket : " + ticket, ex);
+                }
+                e.onNext(ticket);
+            }
+            e.onCompleted();
+        }
+    );
+}
+```
+
