@@ -122,7 +122,7 @@ oncomplete
 # RxJava2.0实战例子  
 ## 同时执行多个任务后合并数据
 在做SOA服务化时，有时候一个服务依赖于其他很多服务，如下图：  
-![](/docs/images/rxjava-soa.png)  
+![](/docs/images/rxjava-soa.jpg)  
 最常规的做法是串行调用接口，最后将结果合并，如果为了提高效率，我们想并行调用每个接口，最后将结果合并，如何做呢？
 
 首先我们想到的是使用多线程去执行，JUC中CountDownLatch可以实现这个效果，最先初始化n个任务传给countDownLatch，然后利用线程池去执行每个任务，执行完后使用countDown()方法将任务递减，CountDownLatch.await()等待指导所有的任务执行完成。RxJava提供了比较优雅的方法，我们来看看它是怎么实现的。
