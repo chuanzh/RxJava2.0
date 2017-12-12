@@ -120,3 +120,48 @@ oncomplete
    + 任务调度： subscribeOn、 observeOn  
    
 # RxJava2.0实战例子  
+## 同时执行多个任务后合并数据
+在做SOA服务化时，有时候一个服务依赖于其他很多服务，如下图：  
+![](/docs/images/rxjava-soa.png)  
+最常规的做法是串行调用接口，最后将结果合并，如果为了提高效率，我们想并行调用每个接口，最后将结果合并，如何做呢？
+
+首先我们想到的是使用多线程去执行，JUC中CountDownLatch可以实现这个效果，最先初始化n个任务传给countDownLatch，然后利用线程池去执行每个任务，执行完后使用countDown()方法将任务递减，CountDownLatch.await()等待指导所有的任务执行完成。RxJava提供了比较优雅的方法，我们来看看它是怎么实现的。
+
+rxjava的实现思路也是一样，创建多个异步处理任务，最后将结果合并，拿调用getPlane接口来说：
+```Java
+private Observable<PlaneBean> getPlane()
+        throws Exception {
+    return Observable.create(new ObservableOnSubscribe<PlaneBean>() {
+        @Override
+        public void subscribe(ObservableEmitter<PlaneBean> e) throws Exception {
+            PlaneBean plane = new PlaneBean();
+            try {
+                /* 调用服务业务处理*/
+            } catch (Exception e) {
+                logger.error(FuncStatic.errorTrace(e));
+            }
+            e.onNext(plane);
+            e.onCompleted();
+            logger.info(requestId + " get plane info end");
+        }
+    }).subscribeOn(Schedulers.from(workPool));
+}
+```
+使用Observable.create创建一个异步任务，在call方法中写需要需要处理的业务逻辑，执行完成后将数据plane传入到subscriber对象中，并调用onCompleted()方法表示结束执行，核心为subscribeOn方法，这个任务会交给workPool来调度，所以最初我们还要创建一个线程池
+```Java
+private static ExecutorService workPool = Executors.newFixedThreadPool(50);
+```
+其他API方法调用同上，再来说下合并，RxJava提供了merge和zip方法来合并任务，merge方法要求每个任务返回的结果都相同，zip则不限制，根据需求这里我们使用zip方法
+```Java
+Observable.zip(getDynamic(), getShare(), getPre(), getPlane(), getFiducial(),
+(dynamic, share, pre, plane, fiducial) -> {
+        response.setDynamic(dynamic);
+        response.setShare(share);
+        response.setPre(pre);
+        response.setPlane(plane);
+        response.setFiducial(fiducial);
+        return response;
+    }
+}).subscribeOn(Schedulers.from(workPool)).toBlocking().subscribe();
+```
+注意这里要使用toBlocking来阻塞阻塞合并操作，等待所有任务都执行完成后再进行合并，最后将结果赋予GetDetailResponse对象
