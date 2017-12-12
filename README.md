@@ -137,8 +137,8 @@ private Observable<PlaneBean> getPlane()
             PlaneBean plane = new PlaneBean();
             try {
                 /* 调用服务业务处理*/
-            } catch (Exception e) {
-                logger.error(FuncStatic.errorTrace(e));
+            } catch (Exception ex) {
+                logger.error(FuncStatic.errorTrace(ex));
             }
             e.onNext(plane);
             e.onCompleted();
@@ -219,8 +219,8 @@ private Observable<ChunqiuWeb> spiderPage(String[] route) {
             }
               e.onNext(result);
               e.onCompleted();
-          } catch (Exception e) {
-              e.onError(e);
+          } catch (Exception ex) {
+              e.onError(ex);
           }
       });
 }
