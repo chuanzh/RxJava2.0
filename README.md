@@ -38,7 +38,7 @@ Observable.from(params)
   .flatMap(param -> postRequest(param).subscribeOn(Schedulers.from(netWorkPool)))
   .map(html -> parsePage(html))
   .flatMap((List<Data> list) -> observable.from(list))
-  .filter(data -> { data.getNo != null })
+  .filter(data -> data.getNo != null)
   .flatMap(data -> insertIntoDb(data).subscribeOn(Schedulers.from(dbPool)))
   .toBlocking()
   .subscribe(result -> {}, error -> logger.error("error {}", error), () -> {
