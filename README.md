@@ -112,7 +112,7 @@ oncomplete
    + [变换操作符：Map、FlatMap、Buffer、GroupBy](/docs/Transforming-Observables.md)  
    + [过滤操作符：Filter、Distinct、Take、First、Last、Skip、SkipLast](/docs/Filtering-Observables.md)  
    + [组合操作符：Merge、Zip](/docs/Combining-Observables.md)  
-   + 错误操作符：Catch、Retry、RetryWhen  
+   + [错误操作符：Catch、Retry、RetryWhen](/docs/Error-Handling-Operators.md)  
    + 辅助操作符：Delay、Subscribe、SubscribeOn、Timeout  
    + 条件和布尔操作符： All、 SkipWhile  
    + 算术和聚合操作：Average、Count、Max、Min、Sum  
