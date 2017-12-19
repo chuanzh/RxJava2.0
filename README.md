@@ -113,7 +113,7 @@ oncomplete
    + [过滤操作符：Filter、Distinct、Take、First、Last、Skip、SkipLast](/docs/Filtering-Observables.md)  
    + [组合操作符：Merge、Zip](/docs/Combining-Observables.md)  
    + [错误操作符：Catch、Retry、RetryWhen](/docs/Error-Handling-Operators.md)  
-   + 辅助操作符：Delay、Subscribe、SubscribeOn、Timeout  
+   + [辅助操作符：Delay、Subscribe、SubscribeOn、Timeout](/docs/Utility-Operators.md)  
    + 条件和布尔操作符： All、 SkipWhile  
    + 算术和聚合操作：Average、Count、Max、Min、Sum  
    + 连接操作： Connect、 Publish  
