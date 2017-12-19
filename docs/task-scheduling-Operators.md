@@ -70,7 +70,7 @@ Observable.fromArray(new String[]{"hello","word", "1"})
 10:08:38.915 [main] INFO  cn.chuanz.operator.utility.ObserveOn - (1)
 ```
 当observeOn指定调度器后，后面的map函数都在一个新的线程上执行  
-说明Java服务端主要使用SubscribeOn做任务调度，一般不使用ObserveOn，ObserveOn在Android里面用的比较多些，前面的较费时的IO操作使用SubscribeOn放在一个线程上执行，最后使用ObserveOn再切换到主线程显示数据。  
+说明：Java服务端主要使用SubscribeOn做任务调度，一般不使用ObserveOn，ObserveOn在Android里面用的比较多些，前面的较费时的IO操作使用SubscribeOn放在一个线程上执行，最后使用ObserveOn再切换到主线程显示数据。  
 subscribeOn和observeOn的使用范围介绍：  
 在不使用Obserable.create创建新的Obserable对象时  
 subscribeOn() 对前后方法都产生影响，直到遇到observeOn方法 。在第一次使用subscribeOn后，再次使用subscribeOn无效。  
