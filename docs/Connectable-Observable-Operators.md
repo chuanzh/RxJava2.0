@@ -5,11 +5,11 @@
 示例代码：   
 
 ```java
-		ConnectableObservable<String> cob = Observable.just("hello", "word").publish();
-		cob.subscribe(System.out::println);
-		
-		/* 调用connect()后才发射数据*/
-		cob.connect();
+ConnectableObservable<String> cob = Observable.just("hello", "word").publish();
+cob.subscribe(System.out::println);
+
+/* 调用connect()后才发射数据*/
+cob.connect();
 ```
 
 输出  
