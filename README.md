@@ -40,8 +40,7 @@ Observable.from(params)
   .flatMap((List<Data> list) -> observable.from(list))
   .filter(data -> data.getNo != null)
   .flatMap(data -> insertIntoDb(data).subscribeOn(Schedulers.from(dbPool)))
-  .toBlocking()
-  .subscribe(result -> {}, error -> logger.error("error {}", error), () -> {
+  .blockingSubscribe(result -> {}, error -> logger.error("error {}", error), () -> {
 	  logger.info("chunqiu ticket onComplete");
   });
 ```
@@ -162,9 +161,9 @@ Observable.zip(getDynamic(), getShare(), getPre(), getPlane(), getFiducial(),
         response.setFiducial(fiducial);
         return response;
     }
-}).subscribeOn(Schedulers.from(workPool)).toBlocking().subscribe();
+}).subscribeOn(Schedulers.from(workPool)).blockingSubscribe();
 ```
-注意这里要使用toBlocking来阻塞阻塞合并操作，等待所有任务都执行完成后再进行合并，最后将结果赋予GetDetailResponse对象
+注意这里要使用blockingSubscribe()来阻塞阻塞合并操作，等待所有任务都执行完成后再进行合并，最后将结果赋予GetDetailResponse对象
 
 ## 一个抓取的例子  
 ### 抓取任务的几个关键点：
@@ -206,7 +205,7 @@ logger.info("end: "+(System.currentTimeMillis()-start));
 * 第二步，抓取根据航段数据，我们指定他在netWorkPool这个线程池上运行，使用retryWhen，当失败后重试，每次重试间隔5秒，重试3次，对应[标注2]  
 * 第三步，解析数据，使用map转换函数即可，对应[标注3]，注：将html解析为List集合数据后，又使用了flatMap将单个List作为多个Obserable发射出去  
 * 第四步，将数据保存到数据库，同时制定了在dbPool上运行，对应[标注4]  
-* 使用toBlocking()堵塞以上的操作，直到所有的任务结束  
+* 使用blockingSubscribe()堵塞以上的操作，直到所有的任务结束  
 
 其它方法如下：
 ```Java
