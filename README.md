@@ -114,10 +114,10 @@ oncomplete
    + [组合操作符：Merge、Zip](/docs/Combining-Observables.md)  
    + [错误操作符：Catch、Retry、RetryWhen](/docs/Error-Handling-Operators.md)  
    + [辅助操作符：Delay、Subscribe、Timeout](/docs/Utility-Operators.md)  
-   + [条件和布尔操作符： All、 SkipWhile](/docs/Conditional-and-Boolean-Operators.md)  
-   + [算术和聚合操作：Average、Count、Max、Min、Sum](/docs/Mathematical-and-Aggregate-Operators.md)  
+   + [条件和布尔操作符： All、 SkipWhile](/docs/Conditional-and-Boolean-Operators.md)   
    + [连接操作： Connect、 Publish](/docs/Connectable-Observable-Operators.md)    
    + [任务调度： subscribeOn、 observeOn](/docs/task-scheduling-Operators.md)  
+   + ~~算术和聚合操作：Average、Count、Max、Min、Sum（RxJava2暂不支持）~~  
    
 # RxJava2.0实战例子  
 ## 同时执行多个任务后合并数据
